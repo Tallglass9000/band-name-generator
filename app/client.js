@@ -1,18 +1,4 @@
 $(function() {
-	$("#submitWords").on("submit", function(e) {
-		e.preventDefault();
-		var adjective = $("input[name=adjective]").val();
-		var adjPost;
-
-		if (adjective) {
-			adjPost = {word: adjective};
-			$.post("adjective", adjPost, function(response) {
-				var adjectiveRes = response.msg;
-				var confirm = response.message;
-				$("#adjectiveRes").html(confirm);
-			});
-		}
-	});
 
 	$("#name").click(function() {
 		$.get("adjective", function(response) {
@@ -30,25 +16,42 @@ $(function() {
 			$("#noun").text(noun);
 		});
 	});
-	
-	$("#adj").on("click", function() {
-		console.log("Hi!");
-		$.get("http://localhost:3000/adjectives", function(response) {
-			$("#ajax-text").html(response);
-		});
-	});
 
-	$("#verby").on("click", function() {
-		console.log("Hello!");
-		$.get("http://localhost:3000/verbs", function(response) {
-			$("#verbtext").html(response);
-		});
-	});
+	$("#submitWords").on("submit", function(e) {
+	e.preventDefault();
+	var adjective = $("input[name=adjective]").val();
+	var verb = $("input[name=verb]").val();
+	var noun = $("input[name=noun]").val();
+	var adjPost;
+	var verbPost;
+	var nounPost;
 
-	$("#nouny").on("click", function() {
-		console.log("Hey!");
-		$.get("http://localhost:3000/nouns", function(response) {
-			$("#nountext").html(response);
-		});
+		if (adjective) {
+			adjPost = {word: adjective};
+			$.post("adjective", adjPost, function(response) {
+				var adjectiveRes = response.msg;
+				var confirm = response.message;
+				$("#adjectiveRes").html(confirm);
+			});
+		}
+
+		if (verb) {
+			verbPost = {word: verb};
+			$.post("verb", verbPost, function(response) {
+				var verbRes = response.msg;
+				var confirm = response.message;
+				$("#verbRes").html(confirm);
+			});
+
+		}
+
+		if (noun) {
+			nounPost = {word: noun};
+			$.post("noun", nounPost, function(response) {
+				var nounRes = response.msg;
+				var confirm = response.message;
+				$("#nounRes").html(confirm);
+			});
+		}
 	});
 });
