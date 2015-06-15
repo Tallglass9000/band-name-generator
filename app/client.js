@@ -1,5 +1,5 @@
 $(function() {
-
+	
 	$("#name").click(function() {
 		$.get("adjective", function(response) {
 			var adjective = response.word;
@@ -17,14 +17,24 @@ $(function() {
 		});
 	});
 
+	$("#storedName").click(function() {
+		$.get("storedName", function(response) {
+			var storedName = response.word;
+			$("#storedNameRes").text(storedName);
+		});
+	});
+
 	$("#submitWords").on("submit", function(e) {
-	e.preventDefault();
-	var adjective = $("input[name=adjective]").val();
-	var verb = $("input[name=verb]").val();
-	var noun = $("input[name=noun]").val();
-	var adjPost;
-	var verbPost;
-	var nounPost;
+		e.preventDefault();
+		var adjective = $("input[name=adjective]").val();
+		var verb = $("input[name=verb]").val();
+		var noun = $("input[name=noun]").val();
+		var storedName = adjective + " " + verb + " " + noun;
+
+		var adjPost;
+		var verbPost;
+		var nounPost;
+		var storedNamePost;
 
 		if (adjective) {
 			adjPost = {word: adjective};
@@ -42,7 +52,6 @@ $(function() {
 				var confirm = response.message;
 				$("#verbRes").html(confirm);
 			});
-
 		}
 
 		if (noun) {
@@ -53,5 +62,17 @@ $(function() {
 				$("#nounRes").html(confirm);
 			});
 		}
+
+		if (storedName) {
+			console.log(storedName);
+			storedNamePost = {word: storedName};
+			$.post("storedName", storedNamePost, function(response) {
+				var storedNameRes = response.msg;
+				var confirm = response.message;
+				$("#storedNameRes").html(confirm);
+			});
+		}
+
+		$("input[name=adjective], input[name=verb], input[name=noun]").val("");
 	});
 });
